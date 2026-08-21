@@ -1,0 +1,39 @@
+dataset:
+  criteo:
+    path: data/raw/criteo-uplift-v2.1.csv.gz
+    dev_sample_frac: 0.01         # ~140K rows
+    experiment_sample_frac: 0.04  # ~500K rows
+    dev_sample_seed: 42
+    treatment_col: treatment
+    outcome_col: conversion
+    feature_cols: [f0, f1, f2, f3, f4, f5, f6, f7, f8, f9, f10, f11]
+    known_treatment_probability: 0.85   # from Criteo documentation
+    note: "unbiased release; treatment ~0.85; conversion ~0.29%"
+  ihdp:
+    source: "https://raw.githubusercontent.com/AMLab-Amsterdam/CEVAE/master/datasets/IHDP/csv/ihdp_npci_{id}.csv"
+    simulation_ids: [1]       # dev: fast
+    note: "tau_true = mu1 - mu0 from NPCI release"
+
+splitting:
+  test_size: 0.2
+  val_size: 0.1
+  seed: 42
+  stratify_on: [treatment, conversion]
+  note: "Test set FROZEN across all experiments"
+
+base_learner:
+  name: xgboost
+  params:
+    n_estimators: 200
+    max_depth: 6
+    learning_rate: 0.05
+    subsample: 0.8
+    colsample_bytree: 0.8
+    eval_metric: logloss
+    scale_pos_weight: null  # null = no reweighting; careful if changing
+    note: "scale_pos_weight shifts probability calibration; affects mu1-mu0 uplift"
+
+experiment:
+  seeds: [42, 123, 456]
+  imbalance_treatment_probs: [0.50, 0.70, 0.90, 0.95]   # E2; total N fixed
+  overlap_alpha_values: [0.5, 2.0, 5.0, 10.0]            # E3; synthetic DGP

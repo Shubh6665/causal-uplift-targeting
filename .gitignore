@@ -1,0 +1,67 @@
+# Environment & Python
+.venv/
+venv/
+ENV/
+env/
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+.coverage
+htmlcov/
+*.egg-info/
+.eggs/
+dist/
+build/
+
+# Private Documentation & Internal Notes
+[Dd]ocs/
+[Dd]oc/
+private-docs/
+docs-private/
+*.pdf
+
+# Data & Datasets (Strictly Protected)
+data/raw/*
+!data/raw/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+*.csv
+*.csv.gz
+*.parquet
+*.h5
+*.pkl
+*.feather
+*.tsv
+
+# Models & Checkpoints
+*.pt
+*.pth
+*.ckpt
+*.joblib
+*.model
+*.bin
+
+# Logs & Temporary Scratch Files
+*.log
+/test_metrics.py
+
+# Jupyter & IDE
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/*
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS & Environment Variables
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+.env
+.env.*

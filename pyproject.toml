@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "causal-uplift-targeting"
+version = "0.1.0"
+description = "A benchmark study of heterogeneous treatment-effect estimation and uplift ranking for incremental advertising targeting."
+requires-python = ">=3.9"
+dependencies = [
+    "numpy",
+    "pandas",
+    "scikit-learn",
+    "xgboost",
+    "matplotlib",
+    "seaborn",
+    "econml",
+    "causalml",
+    "pyyaml",
+    "pyarrow",
+    "pytest",
+    "streamlit",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = "test_*.py"
