@@ -51,9 +51,9 @@ def compute_qini_curve(Y: np.ndarray, T: np.ndarray, tau_hat: np.ndarray) -> Tup
 
 def compute_qini_coefficient(Y: np.ndarray, T: np.ndarray, tau_hat: np.ndarray) -> float:
     """Compute normalized Qini coefficient using CausalML."""
-    # Add tiny noise to break ties, otherwise CausalML qcut crashes if predictions are identical
+    # Deterministically break exact ties to avoid qcut errors on discrete model outputs
     tau_hat = np.asarray(tau_hat, dtype=float)
-    tau_hat += np.random.normal(0, 1e-10, size=len(tau_hat))
+    tau_hat = tau_hat + np.linspace(0, 1e-12, len(tau_hat))
     
     df = pd.DataFrame({
         'y': np.asarray(Y),
@@ -65,7 +65,7 @@ def compute_qini_coefficient(Y: np.ndarray, T: np.ndarray, tau_hat: np.ndarray) 
 def compute_auuc(Y: np.ndarray, T: np.ndarray, tau_hat: np.ndarray) -> float:
     """Compute normalized AUUC using CausalML."""
     tau_hat = np.asarray(tau_hat, dtype=float)
-    tau_hat += np.random.normal(0, 1e-10, size=len(tau_hat))
+    tau_hat = tau_hat + np.linspace(0, 1e-12, len(tau_hat))
     
     df = pd.DataFrame({
         'y': np.asarray(Y),

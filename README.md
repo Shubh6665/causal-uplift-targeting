@@ -51,9 +51,9 @@ Targeting  CATE viz   Confounding(E5)
 
 | Estimator | Architecture | When It Works Best |
 |-----------|-------------|-------------------|
-| **Difference-in-Means** | $\hat{ATE} = \bar{Y}_{T=1} - \bar{Y}_{T=0}$ | Baseline; no heterogeneity |
+| **Difference-in-Means** | $\hat{\text{ATE}} = \bar{Y}(1) - \bar{Y}(0)$ | Baseline; no heterogeneity |
 | **S-Learner** | Single model on $(X, T) \to Y$; $\hat{\tau}(x) = \hat{\mu}(x,1) - \hat{\mu}(x,0)$ | When treatment effect is small relative to outcome variation |
-| **T-Learner** | Two separate models $\hat{\mu}_1(x)$ and $\hat{\mu}_0(x)$; $\hat{\tau}(x) = \hat{\mu}_1 - \hat{\mu}_0$ | Balanced treatment arms |
+| **T-Learner** | Two separate models $\hat{\mu}_1(x)$ and $\hat{\mu}_0(x)$; $\hat{\tau}(x) = \hat{\mu}_1(x) - \hat{\mu}_0(x)$ | Balanced treatment arms |
 | **X-Learner** | Pseudo-effects + propensity-weighted combination | Imbalanced arms; leverages abundant arm |
 
 ### X-Learner 5-Step Pipeline
@@ -70,7 +70,13 @@ The Qini calculation follows this specific convention:
 1. Rank units by predicted uplift $\hat{\tau}$ in descending order.
 2. At each fraction $f$ of the population:
 
-$$Qini(f) = \frac{\sum Y_{T=1, \text{top}_f}}{N_{\text{treated\_total}}} - \frac{\sum Y_{T=0, \text{top}_f}}{N_{\text{control\_total}}} \times \frac{N_{\text{treated\_in\_top}_f}}{N_{\text{treated\_total}}}$$
+$$\text{Qini}(f) = \frac{Y^T(f)}{N_T} - \frac{Y^C(f)}{N_C} \times \frac{N_T(f)}{N_T}$$
+
+where:
+- $Y^T(f)$: cumulative outcome of treated units in the top fraction $f$
+- $Y^C(f)$: cumulative outcome of control units in the top fraction $f$
+- $N_T(f)$: count of treated units in the top fraction $f$
+- $N_T, N_C$: total count of treated and control units in the evaluation set
 
 3. The **Qini coefficient** = Area under the Qini curve minus the random baseline area.
 
